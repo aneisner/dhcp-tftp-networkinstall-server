@@ -1,0 +1,18 @@
+set timeout=10
+set default=0
+
+menuentry 'Install SLES 15 SP7 (aarch64 Network)' --class os {
+    echo "Lade aarch64 Kernel..."
+    # Pfad auf dem TFTP-Server anpassen
+    # linux /sles15sp7/boot/aarch64/linux \
+    linux /sles15sp7/boot/aarch64/linux \
+        install=http://192.168.1.10/repo/sles15sp7/ \
+        console=ttyAMA0,115200n8 console=tty0 \
+        splash=silent
+    
+    echo "Lade aarch64 Initrd..."
+    #initrd /sles15sp7/boot/aarch64/initrd
+    initrd /sles15sp7/boot/aarch64/initrd
+}
+
+

@@ -1,0 +1,853 @@
+<?xml version="1.0"?>
+<productDefines xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+
+<!--
+Work around for the text domain
+textdomain="control"
+-->
+
+    <textdomain>control</textdomain>
+
+    <globals>
+        <additional_kernel_parameters/>
+        <enable_autologin config:type="boolean">false</enable_autologin>
+        <enable_firewall config:type="boolean">true</enable_firewall>
+        <firewall_enable_ssh config:type="boolean">false</firewall_enable_ssh>
+        <enable_sshd config:type="boolean">true</enable_sshd>
+
+        <!-- FATE #303875, see /etc/sysconfig/network/dhcp:WRITE_HOSTNAME_TO_HOSTS -->
+        <write_hostname_to_hosts config:type="boolean">false</write_hostname_to_hosts>
+        <!-- bnc#870896, see /etc/sysconfig/network/dhcp:DHCLIENT_SET_HOSTNAME -->
+        <dhclient_set_hostname config:type="boolean">true</dhclient_set_hostname>
+
+        <incomplete_translation_treshold>95</incomplete_translation_treshold>
+        <inform_about_suboptimal_distribution config:type="boolean">true</inform_about_suboptimal_distribution>
+        <skip_language_dialog config:type="boolean">true</skip_language_dialog>
+        <ui_mode>expert</ui_mode>
+        <displaymanager_shutdown>root</displaymanager_shutdown>
+        <enable_clone config:type="boolean">true</enable_clone>
+        <disable_os_prober config:type="boolean">true</disable_os_prober>
+        <manual_online_update config:type="boolean">true</manual_online_update>
+        <root_password_ca_check config:type="boolean">true</root_password_ca_check>
+
+        <!-- By default do not propose hibernation unless product specify otherwise
+             as majority are servers jsc#SLE-12280-->
+        <propose_hibernation config:type="boolean">false</propose_hibernation>
+
+        <!-- Guide user to drivers.suse.com if HW was not found (FATE#312875)-->
+        <show_drivers_info config:type="boolean">true</show_drivers_info>
+
+        <!-- Offer add-ons in the installation -->
+        <show_addons config:type="boolean">true</show_addons>
+        <addons_default config:type="boolean">true</addons_default>
+
+        <!-- FATE #301937, Save /root content from the installation system to the installed system -->
+        <save_instsys_content config:type="list">
+            <save_instsys_item>
+                <instsys_directory>/root/</instsys_directory>
+                <system_directory>/root/inst-sys/</system_directory>
+            </save_instsys_item>
+        </save_instsys_content>
+
+        <!-- FATE: #304865: Enhance YaST Modules to cooperate better handling the product licenses -->
+        <base_product_license_directory>/usr/share/licenses/product/base/</base_product_license_directory>
+
+        <!-- FATE: #303893: Default to enabled kdump -->
+        <enable_kdump config:type="boolean">true</enable_kdump>
+
+        <!-- bnc #431259 -->
+        <default_ntp_setup config:type="boolean">false</default_ntp_setup>
+
+        <!-- bnc #431158: Adjusts /etc/sysconfig/security/POLKIT_DEFAULT_PRIVS if set -->
+        <polkit_default_privs>restrictive</polkit_default_privs>
+
+        <!-- Used in services proposal -->
+        <services_proposal config:type="list">
+            <!-- FATE #305583: Start CIMOM by default -->
+            <service>
+                <!-- see 'texts' -->
+                <label_id>service_sfcb</label_id>
+                <service_names>sfcb</service_names>
+                <firewall_plugins>sblim-sfcb</firewall_plugins>
+                <enabled_by_default config:type="boolean">false</enabled_by_default>
+                <packages>sblim-sfcb</packages>
+            </service>
+        </services_proposal>
+
+        <!-- self-update URL -->
+        <!-- $os_release_version will be replaced by VERSION defined in /etc/os-release file (inst-sys). -->
+        <!-- $arch will be replaced by the machine architecture. -->
+        <self_update_url>https://installer-updates.suse.com/SUSE/Updates/SLE-INSTALLER/$os_release_version/$arch/update</self_update_url>
+        <!-- self-update ID. SCC recognize for SLE15 ID SLES -->
+        <self_update_id>SLES</self_update_id>
+
+        <!-- Information about required media if the user has skipped the registration -->
+        <!-- $os_release_version will be replaced by VERSION defined in /etc/os-release file (inst-sys). -->
+        <full_system_media_name>SLE-$os_release_version-Full</full_system_media_name>
+        <full_system_download_url>https://www.suse.com/download/</full_system_download_url>
+
+        <lsm>
+          <select>apparmor</select>
+          <configurable config:type="boolean">true</configurable>
+          <!-- Set SELinux disabled mode by default -->
+          <apparmor>
+            <!-- Not configurable because of https://bugzilla.suse.com/show_bug.cgi?id=1184215 -->
+            <patterns>apparmor</patterns>
+          </apparmor>
+          <selinux>
+            <mode>disabled</mode>
+            <!-- Not configurable because of https://bugzilla.suse.com/show_bug.cgi?id=1184215 -->
+            <configurable config:type="boolean">false</configurable>
+            <selectable config:type="boolean">false</selectable>
+            <patterns>selinux</patterns>
+          </selinux>
+        </lsm>
+    </globals>
+
+    <software>
+        <!-- By default, packages can be downgraded -->
+        <silently_downgrade_packages config:type="boolean">true</silently_downgrade_packages>
+        <!-- For SLES12, packages are not downgraded, FATE #301990, bugzilla #238488 -->
+        <silently_downgrade_packages_reverse_list config:type="list">
+            <regexp_item>^SUSE (LINUX|Linux) Enterprise Server 12.*$</regexp_item>
+        </silently_downgrade_packages_reverse_list>
+
+        <!-- Upgrading from SLES, SLED, SLE4SAP in versions 12 and 15 is supported, otherwise a warning is displayed -->
+        <products_supported_for_upgrade config:type="list">
+            <regexp_item>^SUSE (LINUX|Linux) Enterprise.*(12|15).*$</regexp_item>
+        </products_supported_for_upgrade>
+
+        <selection_type config:type="symbol">auto</selection_type>
+
+        <!-- bnc#875350: Explicitly selecting these patterns by default -->
+        <!-- For a list of patterns, see https://build.suse.de/package/view_file/SUSE:SLE-12-SP3:GA/patterns-sles/patterns-sles.spec?expand=1 -->
+        <default_patterns>minimal_base</default_patterns>
+
+        <!-- the default preselected products (add-ons) for the offline Full medium installation -->
+        <!-- this is the "default default", the product specific control files usually override it -->
+        <default_modules config:type="list">
+            <default_module>sle-module-basesystem</default_module>
+        </default_modules>
+
+        <!-- bnc#876760: Explicitly selecting these (optional) patterns by default if they exist -->
+        <optional_default_patterns>32bit</optional_default_patterns>
+
+        <!-- Do not define the default desktop in control file
+             use the update-alternatives approach instead -->
+        <default_desktop></default_desktop>
+
+        <!-- BNC #435479: Show support status in package details -->
+        <display_support_status config:type="boolean">true</display_support_status>
+
+        <!-- Disable the CD/DVD installation medium after finishing the installation (jsc#SLE-3191) -->
+        <disable_media_repo config:type="boolean">true</disable_media_repo>
+
+        <!-- handling software proposal during product upgrade -->
+        <upgrade>
+          <window_managers config:type="list">
+            <window_manager>
+              <sysconfig_wm>gnome</sysconfig_wm>
+              <check_packages>gnome-session</check_packages>
+              <install_patterns>gnome_basic</install_patterns>
+              <install_packages>gdm gnome-shell-classic</install_packages>
+            </window_manager>
+          </window_managers>
+        </upgrade>
+
+        <!-- List of the base products used on the OnlineOnly installation medium,
+             in the future the products should be read directly from the registration
+             server (SCC), but that API has not been implemented yet. -->
+        <base_products config:type="list">
+          <base_product>
+            <!-- hidden product -->
+            <special_product config:type="boolean">true</special_product>
+            <display_name>SUSE Linux Enterprise Server 15 SP7 Business Critical Linux</display_name>
+            <name>SLES_BCL</name>
+            <version>15.7</version>
+            <register_target>sle-15-$arch</register_target>
+            <archs>x86_64</archs>
+          </base_product>
+          <base_product>
+            <display_name>SUSE Linux Enterprise Server 15 SP7</display_name>
+            <name>SLES</name>
+            <version>15.7</version>
+            <register_target>sle-15-$arch</register_target>
+          </base_product>
+          <base_product>
+            <display_name>SUSE Linux Enterprise Real Time 15 SP7</display_name>
+            <name>SLE_RT</name>
+            <version>15.7</version>
+            <register_target>sle-15-$arch</register_target>
+            <archs>x86_64</archs>
+    	  </base_product>
+          <base_product>
+            <display_name>SUSE Linux Enterprise Server for SAP Applications 15 SP7</display_name>
+            <name>SLES_SAP</name>
+            <version>15.7</version>
+            <register_target>sle-15-$arch</register_target>
+            <archs>ppc64le,x86_64</archs>
+          </base_product>
+          <base_product>
+            <display_name>SUSE Linux Enterprise Desktop 15 SP7</display_name>
+            <name>SLED</name>
+            <version>15.7</version>
+            <register_target>sle-15-$arch</register_target>
+            <archs>x86_64</archs>
+          </base_product>
+        </base_products>
+    </software>
+
+    <network>
+        <force_static_ip config:type="boolean">false</force_static_ip>
+        <network_manager>never</network_manager>
+        <startmode>auto</startmode>
+    </network>
+
+    <clone_modules config:type="list">
+        <clone_module>language</clone_module>
+        <clone_module>keyboard</clone_module>
+        <clone_module>timezone</clone_module>
+        <clone_module>users</clone_module>
+        <clone_module>networking</clone_module>
+        <clone_module>firewall</clone_module>
+        <clone_module>host</clone_module>
+        <clone_module>routing</clone_module>
+        <clone_module>proxy</clone_module>
+        <clone_module>services-manager</clone_module>
+        <clone_module>nis</clone_module>
+        <clone_module>ldap</clone_module>
+        <clone_module>printer</clone_module>
+        <clone_module>dasd</clone_module>
+        <clone_module>zfcp</clone_module>
+        <clone_module>ldap-server</clone_module>
+        <clone_module>ca_mgm</clone_module>
+        <clone_module>add-on</clone_module>
+        <clone_module>iscsi-client</clone_module>
+        <clone_module>fcoe-client</clone_module>
+        <clone_module>software</clone_module>
+        <clone_module>partitioning</clone_module>
+        <clone_module>bootloader</clone_module>
+        <clone_module>kdump</clone_module>
+        <clone_module>ntp-client</clone_module>
+        <clone_module>ssh_import</clone_module>
+        <clone_module>tftp-server</clone_module>
+        <clone_module>security</clone_module>
+        <clone_module>suse_register</clone_module>
+    </clone_modules>
+
+    <texts>
+      <congratulate>
+        <label>
+&lt;p&gt;
+The installation has completed successfully.
+Your system is ready for use.
+Click Finish to log in to the system.
+&lt;/p&gt;
+&lt;p&gt;
+Please visit us at http://www.suse.com/.
+&lt;/p&gt;
+        </label>
+      </congratulate>
+
+        <!-- Empty string is intentional, bnc #431251, bnc #431336 -->
+        <dummy_desktop><label/></dummy_desktop>
+
+        <!-- FATE #305583: Start CIMOM by default -->
+        <service_sfcb><label>CIM Server</label></service_sfcb>
+    </texts>
+
+    <proposals config:type="list">
+        <proposal>
+            <label>Installation Settings</label>
+            <mode>installation</mode>
+            <stage>initial</stage>
+            <name>initial</name>
+            <unique_id>inst_initial</unique_id>
+            <enable_skip>no</enable_skip>
+
+            <proposal_modules config:type="list">
+                <proposal_module>
+                    <name>hwinfo</name>
+                    <presentation_order>90</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>bootloader</name>
+                    <presentation_order>40</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>network</name>
+                    <presentation_order>55</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>kdump</name>
+                    <presentation_order>60</presentation_order>
+                </proposal_module>
+                <!-- security proposal including firewall, cpu mitigation, selinux and polkit -->
+                <!-- security proposal can propose to install selinux pattern, so it has to be before software, but need also bootloader proposed, so after it -->
+                <proposal_module>
+                    <name>security</name>
+                    <presentation_order>50</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>security_policy</name>
+                    <presentation_order>51</presentation_order>
+                </proposal_module>
+                <!-- software proposal should be computed almost at the end -->
+                <proposal_module>
+                    <name>software</name>
+                    <presentation_order>35</presentation_order>
+                </proposal_module>
+                <!-- propose the default runlevel after software is selected, bnc #380141 -->
+                <proposal_module>
+                    <name>default_target</name>
+                    <presentation_order>75</presentation_order>
+                </proposal_module>
+                <!-- Fate #319624 - proposal and dialog for existing SSH host keys -->
+                <proposal_module>
+                    <name>ssh_import</name>
+                    <presentation_order>80</presentation_order>
+                </proposal_module>
+            </proposal_modules>
+        </proposal>
+
+        <proposal>
+            <archs>s390</archs>
+            <label>Installation Settings</label>
+            <mode>installation</mode>
+            <stage>initial</stage>
+            <name>initial</name>
+            <unique_id>inst_initial_s390</unique_id>
+            <enable_skip>no</enable_skip>
+
+            <proposal_modules config:type="list">
+                <proposal_module>
+                    <name>cio_ignore</name>
+                    <presentation_order>70</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>hwinfo</name>
+                    <presentation_order>90</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>bootloader</name>
+                    <presentation_order>40</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>network</name>
+                    <presentation_order>55</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>kdump</name>
+                    <presentation_order>60</presentation_order>
+                </proposal_module>
+                <!-- security proposal including firewall, cpu mitigation, selinux and polkit -->
+                <!-- security proposal can propose to install selinux pattern, so it has to be before software, but need also bootloader proposed, so after it -->
+                <proposal_module>
+                    <name>security</name>
+                    <presentation_order>50</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>security_policy</name>
+                    <presentation_order>51</presentation_order>
+                </proposal_module>
+                <!-- software proposal should be computed almost at the end -->
+                <proposal_module>
+                    <name>software</name>
+                    <presentation_order>35</presentation_order>
+                </proposal_module>
+                <!-- propose the default runlevel after software is selected, bnc #380141 -->
+                <proposal_module>
+                    <name>default_target</name>
+                    <presentation_order>75</presentation_order>
+                </proposal_module>
+                <!-- Fate #319624 - proposal and dialog for existing SSH host keys -->
+                <proposal_module>
+                    <name>ssh_import</name>
+                    <presentation_order>80</presentation_order>
+                </proposal_module>
+            </proposal_modules>
+        </proposal>
+
+        <proposal>
+            <label>Installation Settings</label>
+            <mode>autoinstallation</mode>
+            <stage>initial</stage>
+            <name>initial</name>
+            <enable_skip>no</enable_skip>
+            <unique_id>auto_inst_proposal</unique_id>
+
+            <proposal_modules config:type="list">
+                <proposal_module>
+                    <name>hwinfo</name>
+                    <presentation_order>90</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>keyboard</name>
+                    <presentation_order>15</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>partitions</name>
+                    <presentation_order>25</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>add-on</name>
+                    <presentation_order>30</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>bootloader</name>
+                    <presentation_order>40</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>kdump</name>
+                    <presentation_order>42</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>language</name>
+                    <presentation_order>50</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>timezone</name>
+                    <presentation_order>45</presentation_order>
+                </proposal_module>
+                <!-- software proposal should be computed almost at the end -->
+                <proposal_module>
+                    <name>software</name>
+                    <presentation_order>35</presentation_order>
+                </proposal_module>
+                <!-- propose the default runlevel after software is selected, bnc #380141 -->
+                <proposal_module>
+                    <name>default_target</name>
+                    <presentation_order>55</presentation_order>
+                </proposal_module>
+                <!-- Fate #319624 - proposal and dialog for existing SSH host keys -->
+                <proposal_module>
+                    <name>ssh_import</name>
+                    <presentation_order>80</presentation_order>
+                </proposal_module>
+                <proposal_module>
+                    <name>security_policy</name>
+                    <presentation_order>51</presentation_order>
+                </proposal_module>
+            </proposal_modules>
+
+            <proposal_tabs config:type="list">
+                <proposal_tab>
+                    <label>Overview</label>
+                    <proposal_modules config:type="list">
+                        <proposal_module>keyboard</proposal_module>
+                        <proposal_module>partitions</proposal_module>
+                        <proposal_module>software</proposal_module>
+                        <proposal_module>language_simple</proposal_module>
+                        <proposal_module>security_policy</proposal_module>
+                    </proposal_modules>
+                </proposal_tab>
+
+                <proposal_tab>
+                    <label>Expert</label>
+                    <proposal_modules config:type="list">
+                        <proposal_module>hwinfo</proposal_module>
+                        <proposal_module>keyboard</proposal_module>
+                        <proposal_module>partitions</proposal_module>
+                        <proposal_module>bootloader</proposal_module>
+                        <proposal_module>add-on</proposal_module>
+                        <proposal_module>software</proposal_module>
+                        <proposal_module>timezone</proposal_module>
+                        <proposal_module>language</proposal_module>
+                        <proposal_module>default_target</proposal_module>
+                        <proposal_module>kdump</proposal_module>
+                        <proposal_module>ssh_import</proposal_module>
+                    </proposal_modules>
+                </proposal_tab>
+            </proposal_tabs>
+        </proposal>
+
+        <proposal>
+            <label>Installation Settings</label>
+            <mode>update,autoupgrade</mode>
+            <stage>initial</stage>
+            <name>initial</name>
+            <unique_id>update_initial</unique_id>
+            <enable_skip>no</enable_skip>
+
+            <proposal_modules config:type="list">
+                <proposal_module>hwinfo</proposal_module>
+                <proposal_module>update</proposal_module>
+                <proposal_module>add-on</proposal_module>
+                <proposal_module>packages</proposal_module>
+                <proposal_module>backup</proposal_module>
+                <proposal_module>language</proposal_module>
+                <proposal_module>keyboard</proposal_module>
+                <proposal_module>bootloader</proposal_module>
+            </proposal_modules>
+        </proposal>
+
+        <proposal>
+            <archs>s390</archs>
+            <label>Installation Settings</label>
+            <mode>update,autoupgrade</mode>
+            <stage>initial</stage>
+            <name>initial</name>
+            <unique_id>update_S390_initial</unique_id>
+            <enable_skip>no</enable_skip>
+            <proposal_modules config:type="list">
+                <proposal_module>hwinfo</proposal_module>
+                <proposal_module>update</proposal_module>
+                <proposal_module>add-on</proposal_module>
+                <proposal_module>dasd</proposal_module>
+                <proposal_module>zfcp</proposal_module>
+                <proposal_module>packages</proposal_module>
+                <proposal_module>backup</proposal_module>
+                <proposal_module>language</proposal_module>
+                <proposal_module>bootloader</proposal_module>
+            </proposal_modules>
+        </proposal>
+    </proposals>
+
+    <workflows config:type="list">
+        <workflow>
+            <defaults>
+                <archs>all</archs>
+            </defaults>
+            <label>Preparation</label>
+            <mode>installation</mode>
+            <stage>initial</stage>
+            <modules config:type="list">
+                <module>
+                    <label>Load Linuxrc Network Configuration</label>
+                    <name>install_inf</name>
+                </module>
+                <module>
+                    <label>Network Autosetup</label>
+                    <name>setup_dhcp</name>
+                </module>
+                <!-- As soon as possible but after network is initialized -->
+                <module>
+                    <label>Installer Update</label>
+                    <name>update_installer</name>
+                </module>
+                <module>
+                    <name>complex_welcome</name>
+                    <label>Welcome</label>
+                    <enable_back>no</enable_back>
+                    <enable_next>yes</enable_next>
+                    <arguments>
+                        <first_run>yes</first_run>
+                    </arguments>
+                    <retranslate config:type="boolean">true</retranslate>
+                </module>
+                <module>
+                    <label>Product License</label>
+                    <name>product_license</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>Network Activation</label>
+                    <name>lan</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>Disk Activation</label>
+                    <name>disks_activate</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>Registration</label>
+                    <name>scc</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>Repositories Initialization</label>
+                    <name>repositories_initialization</name>
+                </module>
+                <module>
+                    <label>System Analysis</label>
+                    <name>system_analysis</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>System Analysis</label>
+                    <name>product_workflow</name>
+                </module>
+            </modules>
+        </workflow>
+
+        <workflow>
+            <defaults>
+                <archs>all</archs>
+            </defaults>
+            <label>Preparation</label>
+            <mode>update</mode>
+            <stage>initial</stage>
+            <modules config:type="list">
+                <module>
+                    <label>Load Linuxrc Network Configuration</label>
+                    <name>install_inf</name>
+                </module>
+                <module>
+                    <label>Network Autosetup</label>
+                    <name>setup_dhcp</name>
+                </module>
+                <!-- As soon as possible but after network is initialized -->
+                <module>
+                    <label>Installer Update</label>
+                    <name>update_installer</name>
+                </module>
+                <module>
+                    <name>complex_welcome</name>
+                    <label>Welcome</label>
+                    <enable_back>no</enable_back>
+                    <enable_next>yes</enable_next>
+                    <arguments>
+                        <first_run>yes</first_run>
+                    </arguments>
+                    <retranslate config:type="boolean">true</retranslate>
+                </module>
+                <module>
+                    <label>Network Activation</label>
+                    <name>lan</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>Disk Activation</label>
+                    <name>disks_activate</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>System Analysis</label>
+                    <name>system_analysis</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>System for Update</label>
+                    <name>update_partition</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <name>offline_migration</name>
+                    <enable_back>yes</enable_back>
+                </module>
+		<module>
+                    <label>Product License</label>
+                    <name>product_upgrade_license</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <name>upgrade_urls</name>
+                    <enable_back>yes</enable_back>
+                </module>
+
+                <module>
+                    <label>Add-On Products</label>
+                    <name>add-on</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <name>download_release_notes</name>
+                </module>
+                <module>
+                    <heading>yes</heading>
+                    <label>Update</label>
+                </module>
+                <module>
+                    <label>Update Summary</label>
+                    <name>initial_update_proposal</name>
+                    <execute>inst_proposal</execute>
+                    <proposal>initial</proposal>
+                </module>
+                <!--
+                    FATE #303860: Provide consistent progress during installation
+                    BNC  #438848: Also during upgrade
+                -->
+                <module>
+                    <label>Perform Update</label>
+                    <name>prepareprogress</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>prepdisk</name>
+                </module>
+                <!-- Clean up the inst-sys to have more free RAM on low memory systems -->
+                <!-- Note: Needs to be call *after* the partitioning step as it might delete
+                the file system or storage kernel modules from inst-sys. They need to be already
+                loaded and active. -->
+                <module>
+                    <label>Installer Cleanup</label>
+                    <name>instsys_cleanup</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>kickoff</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>rpmcopy</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>finish</name>
+                </module>
+            </modules>
+        </workflow>
+
+        <workflow>
+            <stage>initial</stage>
+            <label>Base Installation</label>
+            <mode>autoinstallation</mode>
+            <defaults>
+                <archs>all</archs>
+                <enable_back>no</enable_back>
+                <enable_next>no</enable_next>
+            </defaults>
+            <modules config:type="list">
+                <module>
+                    <!-- writes hostname and proxy config bsc#1177768 -->
+                    <label>Load Linuxrc Network Configuration</label>
+                    <name>install_inf</name>
+                </module>
+                <!-- As soon as possible -->
+                <module>
+                    <label>Installer Update</label>
+                    <name>update_installer</name>
+                    <enable_back>no</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <!-- bsc#1047060: Module used only to display a beta warning in case README.BETA
+                file exists. Other than that, the module is completely skipped in auto mode -->
+                <module>
+                    <name>complex_welcome</name>
+                    <label>Welcome</label>
+                    <enable_back>no</enable_back>
+                    <enable_next>yes</enable_next>
+                    <arguments>
+                        <first_run>yes</first_run>
+                    </arguments>
+                    <retranslate config:type="boolean">true</retranslate>
+                </module>
+                <module>
+                    <label>AutoYaST Settings</label>
+                    <name>autoinit</name>
+                    <archs>all</archs>
+                    <retranslate config:type="boolean">true</retranslate>
+                </module>
+                <module>
+                    <label>AutoYaST Settings</label>
+                    <name>autosetup</name>
+                </module>
+            </modules>
+        </workflow>
+
+        <workflow>
+            <defaults>
+                <archs>all</archs>
+            </defaults>
+            <label>Preparation</label>
+            <mode>autoupgrade</mode>
+            <stage>initial</stage>
+            <modules config:type="list">
+                <!-- As soon as possible -->
+                <module>
+                    <label>Installer Update</label>
+                    <name>update_installer</name>
+                    <enable_back>no</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <!-- bsc#1047060: Module used only to display a beta warning in case README.BETA
+                file exists. Other than that, the module is completely skipped in auto mode -->
+                <module>
+                    <name>complex_welcome</name>
+                    <label>Welcome</label>
+                    <enable_back>no</enable_back>
+                    <enable_next>yes</enable_next>
+                    <arguments>
+                        <first_run>yes</first_run>
+                    </arguments>
+                    <retranslate config:type="boolean">true</retranslate>
+                </module>
+                <module>
+                    <label>System Analysis</label>
+                    <name>system_analysis</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>System for Update</label>
+                    <name>update_partition_auto</name>
+                    <enable_back>yes</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>AutoYaST Settings</label>
+                    <name>autoinit</name>
+                    <archs>all</archs>
+                    <retranslate config:type="boolean">true</retranslate>
+                </module>
+                <module>
+                    <label>AutoYaST Settings</label>
+                    <name>autosetup_upgrade</name>
+                </module>
+                <module>
+                    <heading>yes</heading>
+                    <label>Update</label>
+                </module>
+                <module>
+                    <label>AutoYaST Settings</label>
+                    <name>initial_update_proposal</name>
+                    <execute>inst_proposal</execute>
+                    <proposal>initial</proposal>
+                    <enable_back>no</enable_back>
+                    <enable_next>yes</enable_next>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>prepareprogress</name>
+                </module>
+
+                <module>
+                    <label>Perform Update</label>
+                    <name>do_resize</name>
+                    <update config:type="boolean">false</update>
+                    <archs>i386,x86_64,ia64</archs>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>prepdisk</name>
+                </module>
+                <!-- Clean up the inst-sys to have more free RAM on low memory systems -->
+                <!-- Note: Needs to be call *after* the partitioning step as it might delete
+                the file system or storage kernel modules from inst-sys. They need to be already
+                loaded and active. -->
+                <module>
+                    <label>Installer Cleanup</label>
+                    <name>instsys_cleanup</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>kickoff</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>store_upgrade_software</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>rpmcopy</name>
+                </module>
+                <module>
+                    <label>Perform Update</label>
+                    <name>finish</name>
+                </module>
+            </modules>
+        </workflow>
+    </workflows>
+</productDefines>

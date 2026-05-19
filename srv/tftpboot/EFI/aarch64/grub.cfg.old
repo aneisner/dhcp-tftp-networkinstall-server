@@ -1,0 +1,32 @@
+# Standard-Zeitlimit und Standard-Eintrag
+set timeout=10
+set default=0
+
+# Grafische Konsole (optional, oft hilfreich bei ARM-Servern)
+insmod gzio
+insmod part_gpt
+insmod ext2
+
+# Menüeintrag für die Installation
+menuentry 'Install SUSE Linux Enterprise Server 15 SP7' --class sles --class os {
+    echo "Lade Kernel (vmlinuz)..."
+    # Pfad muss relativ zum TFTP-Root sein
+    linux /EFI/aarch64/vmlinuz \
+        install=http://192.168.1.1/sles15sp7/ \
+        console=tty0 console=ttyAMA0,115200n8 \
+        ipv6.disable=1 \
+        autoyast=http://192.168.1.1/autoyast/sles15.xml
+        
+    echo "Lade Initrd..."
+    initrd /EFI/aarch64/initrd
+}
+
+menuentry 'Rescue System' --class sles --class os {
+    echo "Lade Kernel (Rescue)..."
+    linux /EFI/aarch64/vmlinuz \
+        rescue=1 \
+        install=http://192.168.1.1/sles15sp7/ \
+        console=tty0 console=ttyAMA0,115200n8
+    echo "Lade Initrd..."
+    initrd /EFI/aarch64/initrd
+}

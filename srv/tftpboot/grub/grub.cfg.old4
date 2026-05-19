@@ -1,0 +1,20 @@
+set root=(tftp,192.168.1.1)
+set timeout=10
+set default=0
+
+# Wichtig für aarch64, falls die Grafik noch nicht initialisiert ist
+terminal_input console
+terminal_output console
+
+menuentry 'Install SLES 15 SP7 (aarch64 Network)' {
+    echo "Lade Kernel..."
+    # IMMER mit / am Anfang starten
+    linux sles15sp7/boot/aarch64/linux \
+        install=http://192.168.1.10/repo/sles15sp7/ \
+        console=ttyAMA0,115200n8 console=tty0 \
+        splash=silent
+
+    echo "Lade Initrd..."
+    # IMMER mit / am Anfang starten
+    initrd sles15sp7/boot/aarch64/initrd
+}
