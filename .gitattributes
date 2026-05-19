@@ -1,0 +1,4 @@
+srv/tftpboot/grub/arm64-efi/rescue filter=lfs diff=lfs merge=lfs -text
+srv/tftpboot/grub/arm64-efi/root filter=lfs diff=lfs merge=lfs -text
+srv/tftpboot/EFI/aarch64/initrd filter=lfs diff=lfs merge=lfs -text
+srv/tftpboot/grub/arm64-efi/initrd filter=lfs diff=lfs merge=lfs -text
