@@ -16,7 +16,7 @@ The files in this repository mirror the file system structure of the SLES server
     * GRUB configuration files (e.g., `grub.cfg`) for the PXE boot menu
 
 ```bash
-tree -p -h -u -g -L 3
+/srv> tree -p -h -u -g -L 3
 .
 ├── [drwxr-xr-x tftp     tftp       32]  tftpboot
 │   ├── [drwxr-xr-x root     root       14]  EFI
@@ -67,6 +67,7 @@ tree -p -h -u -g -L 3
     └── [drwxr-xr-x root     root       34]  htdocs
         ├── [-rw-r--r-- root     root      497]  50x.html
         └── [dr-xr-xr-x root     root     6.0K]  sles15sp7
+
 ```
 
 ## Installation & Deployment
