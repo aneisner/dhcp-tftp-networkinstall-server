@@ -15,6 +15,60 @@ The files in this repository mirror the file system structure of the SLES server
     * The Kernel (`linux`) and Initrd (`initrd`) from the SLES 15 SP7 installation media
     * GRUB configuration files (e.g., `grub.cfg`) for the PXE boot menu
 
+```bash
+/srv> tree -L 3
+.
+├── tftpboot
+│   ├── EFI
+│   │   └── aarch64
+│   ├── grub
+│   │   ├── arm64-efi
+│   │   └── grub.cfg
+│   └── sles15sp7
+│       ├── ARCHIVES.gz
+│       ├── boot
+│       ├── ChangeLog
+│       ├── CHECKSUMS
+│       ├── CHECKSUMS.asc
+│       ├── COPYRIGHT
+│       ├── COPYRIGHT.de
+│       ├── docu
+│       ├── EFI
+│       ├── gpg-pubkey-09d9ea69-67c857f3.asc
+│       ├── gpg-pubkey-39db7c82-66c5d91a.asc
+│       ├── gpg-pubkey-3fa1d6ce-67c856ee.asc
+│       ├── gpg-pubkey-50a3dd1c-50f35137.asc
+│       ├── gpg-pubkey-73f03759-626bd414.asc
+│       ├── gpg-pubkey-d588dc46-63c939db.asc
+│       ├── INDEX.gz
+│       ├── ls-lR.gz
+│       ├── media.1
+│       ├── Module-Basesystem
+│       ├── Module-Containers
+│       ├── Module-Desktop-Applications
+│       ├── Module-Development-Tools
+│       ├── Module-HPC
+│       ├── Module-Legacy
+│       ├── Module-Public-Cloud
+│       ├── Module-Python3
+│       ├── Module-SAP-Applications
+│       ├── Module-Server-Applications
+│       ├── Module-Systems-Management
+│       ├── Module-Transactional-Server
+│       ├── Module-Web-Scripting
+│       ├── Product-HA
+│       ├── Product-SLES
+│       ├── README
+│       ├── repodata
+│       ├── suse_ptf_key_2023.asc
+│       └── suse_ptf_key.asc
+└── www
+    ├── cgi-bin
+    └── htdocs
+        ├── 50x.html
+        └── sles15sp7
+```
+
 ## Installation & Deployment
 
 To deploy this PXE server on a fresh SLES 15 SP7 system, follow these steps:
