@@ -16,57 +16,57 @@ The files in this repository mirror the file system structure of the SLES server
     * GRUB configuration files (e.g., `grub.cfg`) for the PXE boot menu
 
 ```bash
-/srv> tree -L 3
+tree -p -h -u -g -L 3
 .
-├── tftpboot
-│   ├── EFI
-│   │   └── aarch64
-│   ├── grub
-│   │   ├── arm64-efi
-│   │   └── grub.cfg
-│   └── sles15sp7
-│       ├── ARCHIVES.gz
-│       ├── boot
-│       ├── ChangeLog
-│       ├── CHECKSUMS
-│       ├── CHECKSUMS.asc
-│       ├── COPYRIGHT
-│       ├── COPYRIGHT.de
-│       ├── docu
-│       ├── EFI
-│       ├── gpg-pubkey-09d9ea69-67c857f3.asc
-│       ├── gpg-pubkey-39db7c82-66c5d91a.asc
-│       ├── gpg-pubkey-3fa1d6ce-67c856ee.asc
-│       ├── gpg-pubkey-50a3dd1c-50f35137.asc
-│       ├── gpg-pubkey-73f03759-626bd414.asc
-│       ├── gpg-pubkey-d588dc46-63c939db.asc
-│       ├── INDEX.gz
-│       ├── ls-lR.gz
-│       ├── media.1
-│       ├── Module-Basesystem
-│       ├── Module-Containers
-│       ├── Module-Desktop-Applications
-│       ├── Module-Development-Tools
-│       ├── Module-HPC
-│       ├── Module-Legacy
-│       ├── Module-Public-Cloud
-│       ├── Module-Python3
-│       ├── Module-SAP-Applications
-│       ├── Module-Server-Applications
-│       ├── Module-Systems-Management
-│       ├── Module-Transactional-Server
-│       ├── Module-Web-Scripting
-│       ├── Product-HA
-│       ├── Product-SLES
-│       ├── README
-│       ├── repodata
-│       ├── suse_ptf_key_2023.asc
-│       └── suse_ptf_key.asc
-└── www
-    ├── cgi-bin
-    └── htdocs
-        ├── 50x.html
-        └── sles15sp7
+├── [drwxr-xr-x tftp     tftp       32]  tftpboot
+│   ├── [drwxr-xr-x root     root       14]  EFI
+│   │   └── [drwxr-xr-x root     root      126]  aarch64
+│   ├── [drwxr-xr-x root     root       34]  grub
+│   │   ├── [drwxr-xr-x root     root     2.6K]  arm64-efi
+│   │   └── [-rw-r--r-- root     root      155]  grub.cfg
+│   └── [drwxr-xr-x root     root     1.2K]  sles15sp7
+│       ├── [-rwxr-xr-x root     root      74K]  ARCHIVES.gz
+│       ├── [dr-xr-xr-x root     root       14]  boot
+│       ├── [-rwxr-xr-x root     root      92K]  ChangeLog
+│       ├── [-rwxr-xr-x root     root      14K]  CHECKSUMS
+│       ├── [-rwxr-xr-x root     root      827]  CHECKSUMS.asc
+│       ├── [-rwxr-xr-x root     root     1.4K]  COPYRIGHT
+│       ├── [-rwxr-xr-x root     root     1.6K]  COPYRIGHT.de
+│       ├── [drwxr-xr-x root     root     1.9K]  docu
+│       ├── [drwxr-xr-x root     root        8]  EFI
+│       ├── [-rwxr-xr-x root     root     1.6K]  gpg-pubkey-09d9ea69-67c857f3.asc
+│       ├── [-rwxr-xr-x root     root      969]  gpg-pubkey-39db7c82-66c5d91a.asc
+│       ├── [-rwxr-xr-x root     root     1.6K]  gpg-pubkey-3fa1d6ce-67c856ee.asc
+│       ├── [-rwxr-xr-x root     root     1.0K]  gpg-pubkey-50a3dd1c-50f35137.asc
+│       ├── [-rwxr-xr-x root     root     1.6K]  gpg-pubkey-73f03759-626bd414.asc
+│       ├── [-rwxr-xr-x root     root     1.6K]  gpg-pubkey-d588dc46-63c939db.asc
+│       ├── [-rwxr-xr-x root     root     1.1K]  INDEX.gz
+│       ├── [-rwxr-xr-x root     root     2.1K]  ls-lR.gz
+│       ├── [drwxr-xr-x root     root       26]  media.1
+│       ├── [drwxr-xr-x root     root      172]  Module-Basesystem
+│       ├── [drwxr-xr-x root     root      172]  Module-Containers
+│       ├── [drwxr-xr-x root     root      172]  Module-Desktop-Applications
+│       ├── [drwxr-xr-x root     root      172]  Module-Development-Tools
+│       ├── [drwxr-xr-x root     root      172]  Module-HPC
+│       ├── [drwxr-xr-x root     root      172]  Module-Legacy
+│       ├── [drwxr-xr-x root     root      172]  Module-Public-Cloud
+│       ├── [drwxr-xr-x root     root      172]  Module-Python3
+│       ├── [drwxr-xr-x root     root      172]  Module-SAP-Applications
+│       ├── [drwxr-xr-x root     root      172]  Module-Server-Applications
+│       ├── [drwxr-xr-x root     root      172]  Module-Systems-Management
+│       ├── [drwxr-xr-x root     root      172]  Module-Transactional-Server
+│       ├── [drwxr-xr-x root     root      172]  Module-Web-Scripting
+│       ├── [drwxr-xr-x root     root      172]  Product-HA
+│       ├── [drwxr-xr-x root     root      172]  Product-SLES
+│       ├── [-rwxr-xr-x root     root     2.6K]  README
+│       ├── [drwxr-xr-x root     root     3.2K]  repodata
+│       ├── [-rwxr-xr-x root     root     1.6K]  suse_ptf_key_2023.asc
+│       └── [-rwxr-xr-x root     root      970]  suse_ptf_key.asc
+└── [drwxr-xr-x root     root       26]  www
+    ├── [drwxr-xr-x root     root        0]  cgi-bin
+    └── [drwxr-xr-x root     root       34]  htdocs
+        ├── [-rw-r--r-- root     root      497]  50x.html
+        └── [dr-xr-xr-x root     root     6.0K]  sles15sp7
 ```
 
 ## Installation & Deployment
