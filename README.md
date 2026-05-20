@@ -21,7 +21,7 @@ To deploy this PXE server on a fresh SLES 15 SP7 system, follow these steps:
 
 ### 1. Install Required Packages
 Install the DHCP and TFTP server packages:
-```bash
+
 sudo zypper in dhcp-server tftp
 
 ## CRITICAL: Network Configuration Adjustments
