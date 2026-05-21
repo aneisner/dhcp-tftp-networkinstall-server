@@ -14,8 +14,8 @@ The files in this repository mirror the file system structure of the SLES server
     * The EFI boot image (GRUB2 for ARM64)
     * The Kernel (`linux`) and Initrd (`initrd`) from the SLES 15 SP7 installation media
     * GRUB configuration files (e.g., `grub.cfg`) for the PXE boot menu
-* **`/srv/www/htdocs/sles15sp7`**: This directory contains the extracted directory from the SLES15 SP7 ISO (SLE-15-SP7.iso).
-* **`/srv/tftpboot/sles15sp7/`**: This directory contains the extracted directory from the SLES15 SP7 ISO (SLE-15-SP7.iso).
+* **`/srv/www/htdocs/sles15sp7`**: This directory contains the extracted directory from the SLES 15 SP7 ISO (SLE-15-SP7.iso).
+* **`/srv/tftpboot/sles15sp7/`**: This directory contains the extracted directory from the SLES 15 SP7 ISO (SLE-15-SP7.iso).
 
 ```bash
 /srv> tree -p -h -u -g -L 3
@@ -72,7 +72,7 @@ The files in this repository mirror the file system structure of the SLES server
 
 ```
 
-## Installation & Deployment
+## Installation & Deployment & Mounts
 
 To deploy this PXE server on a fresh SLES 15 SP7 system, follow these steps:
 
@@ -80,6 +80,14 @@ To deploy this PXE server on a fresh SLES 15 SP7 system, follow these steps:
 Install the DHCP and TFTP server packages:
 
 sudo zypper in dhcp-server tftp
+
+### 2. Mount SLES 15 SP7 ISO
+To install the OS on the client, the data from SLES 15 SP7 must be made available; to do this, we mount the ISO file. The following entry is added to /etc/fstab:
+
+```bash
+/root/Downloads/SLE-15-SP7.iso  /srv/www/htdocs/sles15sp7  iso9660  loop,ro  0 0
+
+```
 
 ## CRITICAL: Network Configuration Adjustments
 
