@@ -14,6 +14,7 @@ The files in this repository mirror the file system structure of the SLES server
     * The EFI boot image (GRUB2 for ARM64)
     * The Kernel (`linux`) and Initrd (`initrd`) from the SLES 15 SP7 installation media
     * GRUB configuration files (e.g., `grub.cfg`) for the PXE boot menu
+* **`/srv/www/htdocs/sles15sp7`**: This directory contains the extracted directory from the SLES15 SP7 ISO (SLE-15-SP7.iso).
 
 ```bash
 /srv> tree -p -h -u -g -L 3
