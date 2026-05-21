@@ -82,7 +82,7 @@ Install the DHCP and TFTP server packages:
 sudo zypper in dhcp-server tftp
 
 ### 2. Mount SLES 15 SP7 ISO
-To install the OS on the client, the data from SLES 15 SP7 must be made available; to do this, we mount the ISO file. The following entry is added to /etc/fstab:
+To install the OS on the client, the data from SLES 15 SP7 must be made available; to do this, we mount the ISO file. The following entry is added to **`/etc/fstab`**:
 
 ```bash
 /root/Downloads/SLE-15-SP7.iso  /srv/www/htdocs/sles15sp7  iso9660  loop,ro  0 0
