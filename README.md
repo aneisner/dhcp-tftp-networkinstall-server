@@ -99,3 +99,6 @@ Open the file and update the following parameters:
 * **`range`**: Define the pool of IP addresses that will be handed out to PXE clients.
 * **`option routers`**: Set the IP address of your default network gateway.
 * **`next-server`**: This **must** be set to the IP address of this PXE/TFTP server.
+
+### 2. Adapt `/etc/sysconfig/dhcpd` (optional)
+* **`DHCPD_INTERFACE="eth1"`**: Change this if you have multiple network interfaces and want to specify which one DHCPD should listen on.
